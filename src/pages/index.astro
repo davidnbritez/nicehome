@@ -19,40 +19,40 @@ const { portadaImg, portadaCompartir, compromisosTodos, anunciosTodos, ...tienda
 const datos = JSON.stringify({ tienda: tiendaCliente, productos, opiniones }).replace(/</g, "\\u003c");
 ---
 <Base tienda={tienda} titulo={`${tienda.nombre} · ${tienda.lema}`} descripcion={tienda.bajada} imagen={tienda.portadaCompartir || portada?.lg} tipos={tipos} ambientes={ambientes} inicio>
-  {portada && <link slot="head" rel="preload" as="image" href={portada.md} imagesrcset={`${portada.sm} 400w, ${portada.md} 800w, ${portada.lg} 1400w`} imagesizes="(max-width:900px) 100vw, 680px" />}
+  {portada && <link slot="head" rel="preload" as="image" href={portada.md} imagesrcset={`${portada.md} 800w, ${portada.lg} 1400w, ${portada.xl} 2000w`} imagesizes="100vw" />}
 
   <main>
-    <div class="hero-band">
-      <section class="wrap hero">
-        <div>
-          <p class="eyebrow">{tienda.eyebrow}</p>
+    <section class="hero-foto">
+      {portada
+        ? <img class="bg" src={portada.lg} srcset={`${portada.md} 800w, ${portada.lg} 1400w, ${portada.xl} 2000w`} sizes="100vw" width={portada.w} height={portada.h} alt={tienda.portadaAlt || ""} fetchpriority="high" />
+        : <div class="bg"></div>}
+      <div class="wrap hero-in">
+        <div class="copy">
           <h1 set:html={tienda.titulo} />
-          <p class="lead">{tienda.bajada}</p>
           <div class="cta">
-            <a href="#catalogo" class="btn btn-primary">{tienda.ctaCatalogo || "Ver el catálogo"} <Fragment set:html={ICO.arrow} /></a>
-            <a class="btn btn-soft" id="heroWa" href={waHola} target="_blank" rel="noopener"><Fragment set:html={ICO.wa} />{tienda.ctaWhatsapp || "Escribinos"}</a>
-          </div>
-          <div class="trust">
-            {tienda.compromisosTodos.map(c => <><span><Fragment set:html={ICO[c.icono] || ICO.chat} />{c.texto.split(":")[0]}</span></>)}
+            <a href="#catalogo" class="btn btn-light">{tienda.ctaCatalogo || "Ver el catálogo"}</a>
+            <a class="link-light" id="heroWa" href={waHola} target="_blank" rel="noopener"><Fragment set:html={ICO.wa} />{tienda.ctaWhatsapp || "Escribinos"}</a>
           </div>
         </div>
-        <div class="feature">
-          {portada
-            ? <img src={portada.md} srcset={`${portada.sm} 400w, ${portada.md} 800w, ${portada.lg} 1400w`} sizes="(max-width:900px) 100vw, 680px" width={portada.w} height={portada.h} alt={tienda.portadaAlt || destacado?.nombre || ""} fetchpriority="high" />
-            : <div style="width:100%;height:100%;background:var(--bg-3)"></div>}
-          {destacado && (
-            <div class="feature-card">
-              <p class="eyebrow">Destacado</p>
-              <h3>{destacado.nombre}</h3>
-              <p>{destacado.resumen}</p>
-              <div class="fc-foot">
-                <button data-open={destacado.id}>Ver producto <span aria-hidden="true">→</span></button>
-                <b>{(destacado.opciones && destacado.opciones.items.some(o => o.precio)) ? `desde ${gs(precioMin(destacado))}` : gs(destacado.precio)}</b>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+      </div>
+    </section>
+
+    <script is:inline>
+      (function () {
+        var h = document.querySelector("header.top"), s = document.querySelector(".hero-foto");
+        if (!h || !s) return;
+        function f() { h.classList.toggle("on-hero", s.getBoundingClientRect().bottom > h.offsetHeight); }
+        f(); addEventListener("scroll", f, { passive: true }); addEventListener("resize", f);
+      })();
+    </script>
+
+    <div class="strip">
+      <div class="wrap">
+        <p class="lead">{tienda.bajada}</p>
+        <ul class="promises">
+          {tienda.compromisosTodos.map(c => <li>{c.texto}</li>)}
+        </ul>
+      </div>
     </div>
 
     {opiniones.length > 0 && (
@@ -162,7 +162,7 @@ const datos = JSON.stringify({ tienda: tiendaCliente, productos, opiniones }).re
           <div class="field" data-campo="nombre">
             <label for="fNombre">Nombre y apellido</label>
             <input id="fNombre" autocomplete="name" required />
-            <small class="err" hidden>Escribí tu nombre.</small>
+            <small class="err" hidden>Escribí tu nombre</small>
           </div>
 
           {(tienda.zonas.length > 0 || tienda.retiro.activo) && (
@@ -176,21 +176,21 @@ const datos = JSON.stringify({ tienda: tiendaCliente, productos, opiniones }).re
                 <label class="opcion"><input type="radio" name="entrega" value="retiro" />
                   <span><b>{tienda.retiro.texto}</b>{tienda.retiro.detalle && <small>{tienda.retiro.detalle}</small>}</span></label>
               )}
-              <small class="err" hidden>Elegí cómo lo recibís.</small>
+              <small class="err" hidden>Elegí cómo lo recibís</small>
             </fieldset>
           )}
 
           <div class="field" data-campo="direccion" hidden>
             <label for="fDir">Dirección</label>
             <textarea id="fDir" rows="2" autocomplete="street-address" placeholder="Calle, número, barrio y una referencia"></textarea>
-            <small class="err" hidden>Escribí la dirección de entrega.</small>
+            <small class="err" hidden>Escribí la dirección de entrega</small>
           </div>
 
           {tienda.pagos.length > 0 && (
             <fieldset class="field opciones fila" data-campo="pago">
               <legend>¿Cómo pagás?</legend>
               {tienda.pagos.map(p => <label class="opcion chica"><input type="radio" name="pago" value={p} /><span><b>{p}</b></span></label>)}
-              <small class="err" hidden>Elegí cómo pagás.</small>
+              <small class="err" hidden>Elegí cómo pagás</small>
             </fieldset>
           )}
 
@@ -201,12 +201,12 @@ const datos = JSON.stringify({ tienda: tiendaCliente, productos, opiniones }).re
                 <div class="field" data-campo="ruc">
                   <label for="fRuc">RUC o cédula</label>
                   <input id="fRuc" inputmode="numeric" placeholder="Ej. 1234567-8" />
-                  <small class="err" hidden>Revisá el RUC: solo números y, si tiene, el guion con el dígito final (ej. 1234567-8).</small>
+                  <small class="err" hidden>Revisá el RUC: solo números y, si tiene, el guion con el dígito final (ej. 1234567-8)</small>
                 </div>
                 <div class="field" data-campo="razon">
                   <label for="fRazon">Razón social</label>
                   <input id="fRazon" autocomplete="organization" />
-                  <small class="err" hidden>Escribí la razón social.</small>
+                  <small class="err" hidden>Escribí la razón social</small>
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ const datos = JSON.stringify({ tienda: tiendaCliente, productos, opiniones }).re
                 ? <select id={`fx${i}`}><option value="">Elegí una opción</option>{c.opciones.map(o => <option>{o}</option>)}</select>
                 : <input id={`fx${i}`} />}
               {c.ayuda && <small class="ayuda">{c.ayuda}</small>}
-              <small class="err" hidden>Completá este dato.</small>
+              <small class="err" hidden>Completá este dato</small>
             </div>
           ))}
 

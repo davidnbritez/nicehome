@@ -340,7 +340,7 @@ function renderCart(bump = false) {
     const pct = Math.min(100, Math.round((c.subtotal / ENVIO.gratisDesde) * 100));
     const excluida = c.zona && c.zona.sinEnvioGratis;
     eb.hidden = !!excluida || c.retiro;
-    eb.innerHTML = `<p>${c.envioGratis ? `${ICO.truck}<b>¡Tenés envío gratis!</b>` : `${ICO.truck}<span>Te faltan <b>${gs(c.faltante)}</b> para el envío gratis</span>`}</p><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>`;
+    eb.innerHTML = `<p>${c.envioGratis ? `${ICO.truck}<b>Tenés envío gratis</b>` : `${ICO.truck}<span>Te faltan <b>${gs(c.faltante)}</b> para el envío gratis</span>`}</p><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>`;
   }
   // Desglose: subtotal, regalo y envío (cuando ya se eligió cómo recibirlo).
   const rs = $("#cResumen");
@@ -515,7 +515,7 @@ $("#mPlus").addEventListener("click", () => setMQty(mQty + 1));
 $("#mAdd").addEventListener("click", () => {
   if (!openId) return;
   addToCart(openId, selOf(openId), mQty);
-  $("#mAdd .t").textContent = "¡Agregado!";
+  $("#mAdd .t").textContent = "Agregado";
   setTimeout(() => { $("#mAdd .t").textContent = "Agregar al pedido"; setMQty(1); }, 1400);
 });
 $("#cartBtn").addEventListener("click", () => openCart());

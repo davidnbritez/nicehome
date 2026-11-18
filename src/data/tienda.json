@@ -7,12 +7,12 @@
     "Atención personalizada por WhatsApp"
   ],
   "eyebrow": "Artículos para el hogar · Asunción",
-  "titulo": "Almohadones, cortinas y canastos para que tu casa se sienta lista.",
+  "titulo": "Almohadones, cortinas y canastos para que tu casa se sienta lista",
   "bajada": "Textiles cálidos y orden sereno para cada rincón. Armá tu pedido acá, lo confirmamos por WhatsApp y te lo llevamos a casa en Asunción y Gran Asunción.",
   "ctaCatalogo": "Ver el catálogo",
   "ctaWhatsapp": "Escribinos",
-  "portada": "/uploads/portada-living.jpg",
-  "portadaAlt": "Living luminoso con cortinas de lino y almohadones en tonos tierra",
+  "portada": "/uploads/portada-sala.jpg",
+  "portadaAlt": "Living amplio con sofá gris, mesa de madera y ventanales al jardín",
   "destacado": "toalla",
   "plazoEntrega": "",
   "garantia": "",
@@ -68,7 +68,7 @@
       "texto": "Pagás como prefieras: transferencia, QR o efectivo"
     },
     {
-      "icono": "chat",
+      "icono": "wa",
       "texto": "Te asesoramos por WhatsApp antes de comprar"
     }
   ],

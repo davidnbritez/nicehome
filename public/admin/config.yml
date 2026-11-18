@@ -277,7 +277,7 @@ collections:
             widget: list
             summary: "{{texto}}"
             fields:
-              - { name: icono, label: Ícono, widget: select, options: [{ label: Envío, value: truck }, { label: Pago, value: card }, { label: Chat, value: chat }, { label: Reloj, value: clock }, { label: Garantía, value: shield }, { label: Regalo, value: gift }] }
+              - { name: icono, label: Ícono, widget: select, options: [{ label: Envío, value: truck }, { label: Pago, value: card }, { label: Chat, value: chat }, { label: WhatsApp, value: wa }, { label: Reloj, value: clock }, { label: Garantía, value: shield }, { label: Regalo, value: gift }] }
               - { name: texto, label: "Texto (lo que va antes de ':' se destaca)", widget: string }
           - { name: pie, label: Aclaración del pie, widget: string }
           - { name: tipos, label: Tipos de producto (pestañas), widget: list, field: { name: tipo, label: Tipo, widget: string } }

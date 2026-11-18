@@ -37,11 +37,9 @@ const raiz = inicio ? "" : "/";
 <body>
   <a class="skip" href={`${raiz}#catalogo`}>Saltar al catálogo</a>
 
-  <div class="announce">{tienda.anunciosTodos.map(a => <span>{a}</span>)}</div>
-
   <header class="top">
     <div class="wrap bar">
-      <a href="/" class="brand" id="brand"><span class="name">{tienda.nombre}</span><span class="tag">{tienda.lema}</span></a>
+      <a href="/" class="brand" id="brand"><span class="name">{tienda.nombre}</span></a>
       <nav class="main" aria-label="Categorías">
         {tipos.slice(0, 5).map(t => inicio ? <button data-goto-tipo={t}>{t}</button> : <a href="/#catalogo">{t}</a>)}
       </nav>
@@ -56,14 +54,14 @@ const raiz = inicio ? "" : "/";
 
   <slot />
 
-  <section class="band" aria-label="Nuestro compromiso">
+  {!inicio && <section class="band" aria-label="Nuestro compromiso">
     <div class="wrap">
       {tienda.compromisosTodos.map(c => {
         const [t, ...r] = c.texto.split(":");
         return <div><Fragment set:html={ICO[c.icono] || ICO.chat} /><div><b>{t}</b>{r.length > 0 && <p>{r.join(":").trim()}</p>}</div></div>;
       })}
     </div>
-  </section>
+  </section>}
 
   <footer>
     <div class="wrap">

@@ -16,21 +16,22 @@ const archivoDe = ruta => ruta && porNombre[decodeURIComponent(String(ruta).spli
 const cache = new Map();
 
 /** "/uploads/foto.jpg" → { sm, md, lg, w, h } con WebP optimizado. */
-export async function foto(ruta) {
+export async function foto(ruta, xl = false) {
   if (!ruta) return null;
-  if (cache.has(ruta)) return cache.get(ruta);
+  const clave = xl ? ruta + "#xl" : ruta;
+  if (cache.has(clave)) return cache.get(clave);
   const archivo = archivoDe(ruta);
   let out;
   if (!archivo) {
     // Foto que no está en src/assets/uploads (por ej. una URL externa): se usa tal cual.
-    out = { sm: ruta, md: ruta, lg: ruta, w: 1200, h: 900, src: ruta };
+    out = { sm: ruta, md: ruta, lg: ruta, xl: ruta, w: 1200, h: 900, src: ruta };
   } else {
-    const [sm, md, lg] = await Promise.all(
-      [400, 800, 1400].map(width => getImage({ src: archivo, width: Math.min(width, archivo.width), format: "webp", quality: 78 }))
+    const [sm, md, lg, grande] = await Promise.all(
+      [400, 800, 1400, ...(xl ? [2000] : [])].map(width => getImage({ src: archivo, width: Math.min(width, archivo.width), format: "webp", quality: 78 }))
     );
-    out = { sm: sm.src, md: md.src, lg: lg.src, w: archivo.width, h: archivo.height, src: ruta };
+    out = { sm: sm.src, md: md.src, lg: lg.src, xl: (grande || lg).src, w: archivo.width, h: archivo.height, src: ruta };
   }
-  cache.set(ruta, out);
+  cache.set(clave, out);
   return out;
 }
 
@@ -197,7 +198,7 @@ export async function getTienda() {
     factura: { activo: !(tienda.factura && tienda.factura.activo === false) },
     camposExtra,
     regalo: { activo: !!regalo.activo && regalo.precio >= 0, precio: Number(regalo.precio) || 0 },
-    portadaImg: await foto(tienda.portada),
+    portadaImg: await foto(tienda.portada, true),
     portadaCompartir: await fotoCompartir(tienda.portada),
   };
 }
